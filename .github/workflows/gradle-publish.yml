@@ -1,44 +1,85 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
-
-name: Gradle Package
+name: Build and Publish Plugin
 
 on:
   release:
-    types: [created]
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.event.release.id }}
+  cancel-in-progress: false
 
 jobs:
-  build:
-
+  build-and-publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      run: ./gradlew publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build plugin
+        run: ./gradlew clean build --no-daemon
+
+      # Pick exactly one JAR and fail if ambiguous/missing.
+      - name: Resolve release artifact
+        id: artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+
+          # Exclude common non-release jars. Adjust if your naming differs.
+          jars=(build/libs/*.jar)
+          filtered=()
+          for f in "${jars[@]}"; do
+            case "$f" in
+              *-sources.jar|*-javadoc.jar|*-dev.jar|*-plain.jar) ;;
+              *) filtered+=("$f") ;;
+            esac
+          done
+
+          if [ "${#filtered[@]}" -eq 0 ]; then
+            echo "No publishable JAR found in build/libs"
+            ls -la build/libs || true
+            exit 1
+          fi
+
+          if [ "${#filtered[@]}" -gt 1 ]; then
+            echo "Multiple publishable JARs found; refusing to guess:"
+            printf ' - %s\n' "${filtered[@]}"
+            exit 1
+          fi
+
+          echo "jar_path=${filtered[0]}" >> "$GITHUB_OUTPUT"
+          echo "Selected artifact: ${filtered[0]}"
+
+      - name: Upload to Modrinth
+        uses: modrinth/action-publish@v3
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project_id: colored
+          version_number: ${{ github.ref_name }}
+          version_name: Release ${{ github.ref_name }}
+          changelog: ${{ github.event.release.body }}
+          files: ${{ steps.artifact.outputs.jar_path }}
+
+      - name: Upload to Hangar
+        uses: HangarMC/hangar-publish-action@v1
+        with:
+          api_key: ${{ secrets.HANGAR_TOKEN }}
+          project_id: QuickMash/Colored
+          version: ${{ github.ref_name }}
+          channel: Release
+          changelog: ${{ github.event.release.body }}
+          files: ${{ steps.artifact.outputs.jar_path }}
