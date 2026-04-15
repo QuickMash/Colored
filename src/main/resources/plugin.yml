@@ -1,0 +1,11 @@
+name: Colored
+description: $description
+prefix: colour
+version: '$version'
+
+main: cc.quickmash.colored.Colored
+api-version: '1.21.11'
+load: POSTWORLD
+
+authors: [ QuickMash ]
+website: quickmash.cc
