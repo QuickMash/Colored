@@ -3,13 +3,13 @@ plugins {
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
-val releaseVersion = providers.gradleProperty("releaseVersion")
+val releaseVersionOrNull = providers.gradleProperty("releaseVersion")
     .orElse(providers.environmentVariable("GITHUB_REF_NAME"))
     .orNull
 
 // Prefer explicit Gradle property for local release checks, then fall back to CI tag env.
-if (!releaseVersion.isNullOrBlank()) {
-    version = releaseVersion
+if (!releaseVersionOrNull.isNullOrBlank()) {
+    version = releaseVersionOrNull
 }
 
 repositories {
