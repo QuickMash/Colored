@@ -5,16 +5,25 @@
 ## What is *Colored*?
 
 Colored is a simple plugin that allows your players to format their chat, the same way as you would format your servers motd. You type color codes into your chat, and then your chat will be automatically colored.
-|-------------------------------------------------------------------------------|
-| Color Chart                                                                   |
-|-------------------------------------------------------------------------------|
+
+## Color Chart
+
 | Code | Color      | Code | Color      | Code | Color      | Code | Color      |
 |------|------------|------|------------|------|------------|------|------------|
 | &0   | Black      | &5   | Dark Purple| &a   | Green      | &f   | White      |
-| &1   | Dark Blue  | &6   | Gold       | &b   | Aqua       | &r   | Reset Color|
+| &1   | Dark Blue  | &6   | Gold       | &b   | Aqua       | &r   | Reset      |
 | &2   | Dark Green | &7   | Light Gray | &c   | Red        |
 | &3   | Dark Aqua  | &8   | Gray       | &d   | Purple     |
 | &4   | Dark Red   | &9   | Blue       | &e   | Yellow     |
+
+## Format Codes
+| Code | Formatting    |
+|------|---------------|
+| &l   | **Bold**      |
+| &m   | Strikethrough |
+| &n   | <u>Underline</u>     |
+| &o   | *Italic*      |
+| &k   | Obfuscated    |
 
 
 ## Contributing
