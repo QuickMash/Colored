@@ -1,5 +1,8 @@
 # Colored
 [![Colored](https://img.shields.io/hangar/dt/Colored?link=https%3A%2F%2Fhangar.papermc.io%2FQuickMash%2FColored&style=flat)](https://hangar.papermc.io/QuickMash/Colored)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/QuickMash/Colored/gradle-publish.yml)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/QuickMash/Colored)
+
 ---
 
 ## What is *Colored*?
