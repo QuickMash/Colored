@@ -61,3 +61,19 @@ tasks {
         }
     }
 }
+
+hangarPublish {
+    publications.register("plugin") {
+        version.set(project.version.toString())
+        channel.set("Release")
+        id.set("QuickMash/Colored") // replace with your real Hangar project slug
+        apiKey.set(providers.environmentVariable("HANGAR_API_TOKEN"))
+
+        platforms {
+            paper {
+                jar.set(tasks.jar.flatMap { it.archiveFile })
+                platformVersions.set(listOf("1.21.11"))
+            }
+        }
+    }
+}
