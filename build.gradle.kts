@@ -3,6 +3,14 @@ plugins {
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
+val releaseVersion = providers.gradleProperty("releaseVersion")
+    .orElse(providers.environmentVariable("GITHUB_REF_NAME"))
+    .orNull
+
+if (!releaseVersion.isNullOrBlank()) {
+    version = releaseVersion
+}
+
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
@@ -23,6 +31,25 @@ tasks {
         // Your plugin's jar (or shadowJar if present) will be used automatically.
         minecraftVersion("1.21.11")
         jvmArgs("-Xms2G", "-Xmx2G", "-Dcom.mojang.eula.agree=true")
+    }
+
+    register("verifySingleReleaseJar") {
+        dependsOn("jar")
+
+        doLast {
+            val excludedSuffixes = setOf("-sources.jar", "-javadoc.jar", "-dev.jar", "-plain.jar")
+            val jars = layout.buildDirectory.dir("libs").get().asFile
+                .listFiles { file -> file.isFile && file.name.endsWith(".jar") }
+                ?.toList()
+                .orEmpty()
+            val publishable = jars.filterNot { jar -> excludedSuffixes.any { jar.name.endsWith(it) } }
+
+            check(publishable.size == 1) {
+                "Expected exactly one publishable JAR in build/libs, found ${publishable.size}: ${
+                    publishable.joinToString { it.name }
+                }"
+            }
+        }
     }
 
     processResources {

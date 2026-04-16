@@ -14,22 +14,24 @@ concurrency:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ github.ref_name }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build plugin
-        run: ./gradlew clean build --no-daemon
+      - name: Build plugin for release tag
+        run: ./gradlew clean verifySingleReleaseJar --no-daemon -PreleaseVersion="${RELEASE_VERSION}"
 
       # Pick exactly one JAR and fail if ambiguous/missing.
       - name: Resolve release artifact
@@ -69,8 +71,8 @@ jobs:
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
           project_id: colored
-          version_number: ${{ github.ref_name }}
-          version_name: Release ${{ github.ref_name }}
+          version_number: ${{ env.RELEASE_VERSION }}
+          version_name: Release ${{ env.RELEASE_VERSION }}
           changelog: ${{ github.event.release.body }}
           files: ${{ steps.artifact.outputs.jar_path }}
 
@@ -79,7 +81,7 @@ jobs:
         with:
           api_key: ${{ secrets.HANGAR_TOKEN }}
           project_id: QuickMash/Colored
-          version: ${{ github.ref_name }}
+          version: ${{ env.RELEASE_VERSION }}
           channel: Release
           changelog: ${{ github.event.release.body }}
           files: ${{ steps.artifact.outputs.jar_path }}
