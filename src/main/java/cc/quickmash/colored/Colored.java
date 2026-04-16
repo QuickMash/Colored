@@ -32,6 +32,10 @@ public final class Colored extends JavaPlugin implements Listener {
             return;
         }
         Component colored = LegacyComponentSerializer.legacyAmpersand().deserialize(plain);
+        if (PlainTextComponentSerializer.plainText().serialize(colored).trim().isEmpty()) {
+            e.setCancelled(true);
+            return;
+        }
         e.message(colored);
     }
 }
