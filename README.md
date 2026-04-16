@@ -1,3 +1,4 @@
+<img width="2000" height="2000" alt="LOGO" src="https://github.com/user-attachments/assets/f829406e-b3d0-4125-8373-50b66ba81eec" />
 # Colored
 
 <img width="960" height="493" alt="Screenshot" src="https://github.com/user-attachments/assets/8ac2da89-018b-47f8-85b3-abf9d4c6f512" />
