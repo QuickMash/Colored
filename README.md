@@ -1,4 +1,4 @@
-<img width="100" height="100" alt="LOGO" src="https://github.com/user-attachments/assets/f829406e-b3d0-4125-8373-50b66ba81eec" />
+<img align="center" width="100" height="100" alt="LOGO" src="https://github.com/user-attachments/assets/f829406e-b3d0-4125-8373-50b66ba81eec" />
 
 <h1 align="center">
   Colored
