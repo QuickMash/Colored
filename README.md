@@ -53,6 +53,7 @@ The release workflow is in `.github/workflows/build-and-publish.yml` and runs on
 
 - The plugin version is set from `github.ref_name` (`-PreleaseVersion=...`) so plugin metadata and published versions match the Git tag.
   - Local/CI precedence is `-PreleaseVersion` first, then `GITHUB_REF_NAME` as a fallback.
+- Release publishing runs `clean test verifySingleReleaseJar` before upload.
 - Build artifact validation uses `verifySingleReleaseJar` and publishing fails unless exactly one release JAR exists in `build/libs` (excluding `-sources`, `-javadoc`, `-dev`, `-plain` jars).
 - Required repository secrets:
   - `MODRINTH_TOKEN`
