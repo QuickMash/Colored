@@ -1,4 +1,4 @@
-<img width="500" height="500" alt="LOGO" style="border-radius: 15px;" src="https://github.com/user-attachments/assets/f829406e-b3d0-4125-8373-50b66ba81eec" />
+<img width="100" height="100" alt="LOGO" src="https://github.com/user-attachments/assets/f829406e-b3d0-4125-8373-50b66ba81eec" />
 
 # Colored
 
