@@ -1,4 +1,8 @@
 # Colored
+
+<img width="1919" height="986" alt="Screenshot" src="https://github.com/user-attachments/assets/8ac2da89-018b-47f8-85b3-abf9d4c6f512" />
+
+
 [![Colored](https://img.shields.io/hangar/dt/Colored?link=https%3A%2F%2Fhangar.papermc.io%2FQuickMash%2FColored&style=flat)](https://hangar.papermc.io/QuickMash/Colored)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/QuickMash/Colored/gradle-publish.yml)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/QuickMash/Colored)
