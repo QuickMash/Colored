@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("io.papermc.hangar-publish-plugin") version "0.1.2"
 }
 
 val releaseVersionOrNull = providers.gradleProperty("releaseVersion")
