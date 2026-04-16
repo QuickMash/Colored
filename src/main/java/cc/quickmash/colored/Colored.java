@@ -22,7 +22,7 @@ public final class Colored extends JavaPlugin implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void c(AsyncChatEvent e) {
+    public void onAsyncChat(AsyncChatEvent e) {
         final String plain = PlainTextComponentSerializer.plainText().serialize(e.message()).trim();
         if (plain.isEmpty()) {
             e.setCancelled(true);
