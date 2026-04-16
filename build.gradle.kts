@@ -77,7 +77,7 @@ tasks {
 hangarPublish {
     publications.register("plugin") {
         version.set(project.version.toString())
-        channel.set("Release")
+        channel.set("Snapshot")
         id.set("QuickMash/Colored")
         apiKey.set(providers.environmentVariable("HANGAR_API_TOKEN"))
 
