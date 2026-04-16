@@ -4,11 +4,23 @@ plugins {
     id("io.papermc.hangar-publish-plugin") version "0.1.2"
 }
 
+/**
+ * Version strategy:
+ * 1) -PreleaseVersion=... (manual override)
+ * 2) GitHub Actions unique run id: <run_id>.<run_attempt>
+ * 3) Fallback for local/dev
+ */
 val releaseVersionOrNull = providers.gradleProperty("releaseVersion")
-    .orElse(providers.environmentVariable("GITHUB_REF_NAME"))
+    .orElse(
+        providers.environmentVariable("GITHUB_RUN_ID").zip(
+            providers.environmentVariable("GITHUB_RUN_ATTEMPT")
+        ) { runId, attempt ->
+            "$runId.$attempt"
+        }
+    )
+    .orElse("dev-${System.currentTimeMillis()}")
     .orNull
 
-// Prefer explicit Gradle property for local release checks, then fall back to CI tag env.
 if (!releaseVersionOrNull.isNullOrBlank()) {
     version = releaseVersionOrNull
 }
@@ -66,7 +78,7 @@ hangarPublish {
     publications.register("plugin") {
         version.set(project.version.toString())
         channel.set("Release")
-        id.set("QuickMash/Colored") // replace with your real Hangar project slug
+        id.set("QuickMash/Colored")
         apiKey.set(providers.environmentVariable("HANGAR_API_TOKEN"))
 
         platforms {
