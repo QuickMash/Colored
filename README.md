@@ -7,7 +7,7 @@
 Colored is a simple plugin that allows your players to format their chat using classic color codes.
 
 [![Colored](https://img.shields.io/hangar/dt/Colored?link=https%3A%2F%2Fhangar.papermc.io%2FQuickMash%2FColored&style=flat)](https://hangar.papermc.io/QuickMash/Colored)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/QuickMash/Colored/build-and-publish.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/QuickMash/Colored/hangar.yml)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/QuickMash/Colored)
 
 <img src="https://github.com/user-attachments/assets/8ac2da89-018b-47f8-85b3-abf9d4c6f512" width="80%" alt="Screenshot" />
