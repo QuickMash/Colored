@@ -1,5 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("java-library")
+    id("com.gradleup.shadow") version "9.3.1"
     id("xyz.jpenilla.run-paper") version "3.0.2"
     id("io.papermc.hangar-publish-plugin") version "0.1.2"
 }
@@ -32,6 +35,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    implementation("org.bstats:bstats-bukkit:3.2.1")
 }
 
 java {
@@ -48,7 +52,7 @@ tasks {
     }
 
     register("verifySingleReleaseJar") {
-        dependsOn("jar")
+        dependsOn("shadowJar")
 
         doLast {
             val excludedSuffixes = setOf("-sources.jar", "-javadoc.jar", "-dev.jar", "-plain.jar")
@@ -72,6 +76,21 @@ tasks {
             expand(props)
         }
     }
+
+    named<ShadowJar>("shadowJar") {
+        configurations = project.configurations.runtimeClasspath.map { setOf(it) }
+
+        dependencies {
+            exclude { it.moduleGroup != "org.bstats" }
+        }
+
+        relocate("org.bstats", "${project.group}.bstats")
+        archiveClassifier.set("")
+    }
+
+    jar {
+        enabled = false
+    }
 }
 
 hangarPublish {
@@ -83,7 +102,7 @@ hangarPublish {
 
         platforms {
             paper {
-                jar.set(tasks.jar.flatMap { it.archiveFile })
+                jar.set(tasks.named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
                 platformVersions.set(listOf("1.21.11"))
             }
         }

@@ -4,6 +4,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -17,6 +19,9 @@ public final class Colored extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        int pluginId = 31468;
+        Metrics metrics = new Metrics(this, pluginId);
+        metrics.addCustomChart(new SimplePie("chart_id", () -> "My value"));
         getServer().getPluginManager().registerEvents(this, this);
     }
 
