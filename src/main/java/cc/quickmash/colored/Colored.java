@@ -4,6 +4,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -13,10 +15,13 @@ import java.util.regex.Pattern;
 
 public final class Colored extends JavaPlugin implements Listener {
 
+    private static final int BSTATS_PLUGIN_ID = 31468;
     private static final Pattern AMP_CODES = Pattern.compile("(?i)&([0-9A-FK-ORX])");
 
     @Override
     public void onEnable() {
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
+        metrics.addCustomChart(new SimplePie("plugin_version", () -> getPluginMeta().getVersion()));
         getServer().getPluginManager().registerEvents(this, this);
     }
 
