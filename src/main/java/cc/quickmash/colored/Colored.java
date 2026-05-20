@@ -21,7 +21,7 @@ public final class Colored extends JavaPlugin implements Listener {
     public void onEnable() {
         int pluginId = 31468;
         Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new SimplePie("chart_id", () -> "My value"));
+        metrics.addCustomChart(new SimplePie("chat_color_formatting_enabled", () -> "true"));
         getServer().getPluginManager().registerEvents(this, this);
     }
 

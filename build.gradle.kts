@@ -81,7 +81,7 @@ tasks {
         configurations = project.configurations.runtimeClasspath.map { setOf(it) }
 
         dependencies {
-            exclude { it.moduleGroup != "org.bstats" }
+            include(dependency("org.bstats:bstats-bukkit:.*"))
         }
 
         relocate("org.bstats", "${project.group}.bstats")
