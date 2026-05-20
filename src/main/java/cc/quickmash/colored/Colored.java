@@ -15,13 +15,13 @@ import java.util.regex.Pattern;
 
 public final class Colored extends JavaPlugin implements Listener {
 
+    private static final int BSTATS_PLUGIN_ID = 31468;
     private static final Pattern AMP_CODES = Pattern.compile("(?i)&([0-9A-FK-ORX])");
 
     @Override
     public void onEnable() {
-        int pluginId = 31468;
-        Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new SimplePie("chat_color_formatting_enabled", () -> "true"));
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
+        metrics.addCustomChart(new SimplePie("plugin_version", () -> getPluginMeta().getVersion()));
         getServer().getPluginManager().registerEvents(this, this);
     }
 

@@ -78,7 +78,7 @@ tasks {
     }
 
     named<ShadowJar>("shadowJar") {
-        configurations = project.configurations.runtimeClasspath.map { setOf(it) }
+        configurations = listOf(project.configurations.runtimeClasspath.get())
 
         dependencies {
             include(dependency("org.bstats:bstats-bukkit:.*"))
@@ -89,7 +89,7 @@ tasks {
     }
 
     jar {
-        enabled = false
+        archiveClassifier.set("plain")
     }
 }
 
