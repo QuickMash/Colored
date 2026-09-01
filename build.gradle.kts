@@ -82,6 +82,7 @@ tasks {
 
         dependencies {
             include(dependency("org.bstats:bstats-bukkit:.*"))
+            include(dependency("org.bstats:bstats-base:.*"))
         }
 
         relocate("org.bstats", "${project.group}.bstats")
